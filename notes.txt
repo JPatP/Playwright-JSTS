@@ -1,0 +1,466 @@
+npm init playwright
+npx playwright test --headed
+
+Git Commands Reference
+======================
+
+Basic setup:
+
+    git config --global user.name "JPatP"
+    git config --global user.email "gonzaless424@gmail.com"
+
+Common commands:
+    git init
+
+    git status
+    git ls-files
+
+    git add <file>
+    git add .
+
+    git restore --staged <file>
+
+    git rm <file>
+    git rm --cached <file>
+
+    git commit -m "message"
+
+    git log --oneline --decorate
+    git show --name-only <commit>
+    git reflog
+
+    git reset --hard HEAD~1
+
+    git checkout <id>
+    git checkout <master/main>
+
+    git branch
+    git branch <name>
+    git branch -a
+    git branch -d <branch-name>
+
+    git checkout <branch-name>
+    git checkout -b <branch-name>
+
+    git merge <feature-branch>
+    git merge --abort
+
+    git rebase --abort
+
+    git remote
+    git remote -v
+    git remote get-url <identifier>
+
+    git remote add <identifier> <URL.git>
+    git remote set-url <identifier> <URL.git>
+    git remote set-url <identifier> <https://secondusername@URL.git>
+
+    git push <identifier> <target-branch>
+    git push --set-upstream origin <branch>
+    git push -u origin <branch>
+
+    git pull
+
+    git clone <url>
+
+    rmdir /s /q .git
+
+
+```text
+Common Git Commands + When To Use
+
+=== Starting a Repo ===
+
+git init
+- Start Git tracking in the current folder.
+
+git clone <url>
+- Copy an existing remote repository to your local machine.
+
+
+=== Staging / Checking Files ===
+
+git status
+- Check current branch, staged files, unstaged files, and untracked files.
+
+git ls-files
+- Show files currently tracked by Git.
+- Useful when VS Code says a file is gone but Git still sees it.
+
+git add <file>
+- Stage one file for commit.
+
+git add .
+- Stage all current changes.
+
+git restore --staged <file>
+- Unstage a file but keep changes in your folder.
+
+git rm <file>
+- Delete a file from your folder AND remove it from Git tracking.
+
+git rm --cached <file>
+- Stop tracking a file but keep it in your folder.
+- Useful for files that should be ignored, like .env, ZIPs, or build files.
+
+
+=== Committing / Viewing History ===
+
+git commit -m "message"
+- Save staged changes as a commit.
+
+git log --oneline --decorate
+- View commit history in short format.
+
+git show --name-only <commit>
+- Show which files are inside a specific commit.
+- Useful for finding bad files hidden in old commits.
+
+git reflog
+- Show previous HEAD positions.
+- Useful for recovering after reset/rebase mistakes.
+
+
+=== Undo / Recovery ===
+
+git reset --hard HEAD~1
+- Delete the latest commit and discard its changes.
+- Dangerous. Use only when you are sure you do not need the latest commit.
+
+git restore <file>
+- Discard local unstaged changes in a file.
+
+git rebase --abort
+- Cancel an ongoing rebase and return to the previous state.
+
+git merge --abort
+- Cancel an ongoing merge conflict.
+
+rmdir /s /q .git
+- CMD command, not a Git command.
+- Deletes all local Git history but keeps project files.
+- Emergency use only.
+- Best when:
+  * Repo has never successfully pushed
+  * First/root commit is poisoned
+  * You want a fresh clean Git history
+
+After using rmdir /s /q .git:
+
+git init
+git branch -M main
+git remote add origin <URL.git>
+git add .
+git commit -m "Initial commit"
+git push -u origin main
+
+
+=== Branches ===
+
+git branch
+- Show local branches only.
+
+git branch -a
+- Show local + remote branches.
+- Useful after cloning when other branches do not appear locally.
+
+git branch <name>
+- Create a new branch but do not switch to it.
+
+git checkout <branch-name>
+- Switch to an existing branch.
+
+git checkout -b <branch-name>
+- Create a new branch and switch to it.
+
+git checkout <commit-id>
+- Move to a specific commit.
+- Usually for inspection, not normal work.
+
+git checkout <master/main>
+- Return to master or main branch.
+
+git branch -d <branch-name>
+- Delete a local branch after it has been merged.
+
+git merge <feature-branch>
+- Merge a feature branch into the current branch.
+
+
+=== Remotes ===
+
+git remote
+- Show remote names, usually origin.
+
+git remote -v
+- Show remote names and URLs.
+
+git remote get-url <identifier>
+- Show the URL for a remote.
+- Example: git remote get-url origin
+
+git remote add <identifier> <URL.git>
+- Connect your local repo to a remote repo.
+- Example: git remote add origin https://github.com/user/repo.git
+
+git remote set-url <identifier> <URL.git>
+- Change an existing remote URL.
+- Use when remote points to the wrong repo, you switched fork/origin, or repo URL changed.
+
+git remote set-url <identifier> <https://secondusername@URL.git>
+- Same as above, but includes a username hint.
+- Usually unnecessary with Windows Credential Manager.
+- Does not guarantee GitHub authenticates as that account.
+
+
+=== Push / Pull ===
+
+git push <identifier> <target-branch>
+- Push local branch to remote branch.
+- Example: git push origin main
+
+git push --set-upstream origin <branch>
+git push -u origin <branch>
+- Push branch and remember its remote tracking branch.
+- Use the first time pushing a new branch.
+
+git pull
+- Fetch remote changes and merge them into your current branch.
+
+
+=== Useful Debugging Commands ===
+
+git status
+- Where am I? What changed?
+
+git branch -a
+- What branches exist locally and remotely?
+
+git remote -v
+- Where am I pushing/pulling from?
+
+git ls-files
+- What files does Git track?
+
+git show --name-only <commit>
+- What files are inside this commit?
+
+git reflog
+- Where was HEAD before I messed up?
+
+
+=== Important Lessons ===
+
+git config user.name / user.email
+- Controls commit author identity only.
+- Does NOT control GitHub push permission.
+
+Windows Credential Manager
+- Controls which GitHub account/token is used for HTTPS pushes.
+
+Commit Author = git config
+Push Permission = Credential Manager
+
+Deleting a file later does not remove it from old commits.
+GitHub checks all commits being pushed.
+
+If a large file exists in an old commit:
+- Remove it from history, or
+- If repo has never pushed successfully, recreate clean history using rmdir /s /q .git
+```
+
+
+Quick pager tip:
+
+    git log -> press q to exit pager
+
+
+Windows Credential Manager & Git
+--------------------------------
+
+What it is:
+
+    Windows Credential Manager stores saved GitHub credentials (usernames/tokens) used by Git for push, pull, fetch, and clone.
+
+Where to find it:
+
+    Control Panel
+    → Credential Manager
+    → Windows Credentials
+    → git:https://github.com
+
+Why it matters:
+
+    git config --global user.name
+    git config --global user.email
+
+only set the commit author, not the authentication identity.
+
+Authentication for GitHub operations comes from the credentials stored in Windows Credential Manager.
+
+Example:
+
+    Credential Manager:
+    User = PattoGit
+
+    Result:
+    git push origin feature/bg-color
+
+    GitHub authenticates as PattoGit,
+    regardless of the local git user.name setting.
+
+Key takeaway:
+
+    Commit Author = git config user.name / git config user.email
+    Push Permission = Windows Credential Manager
+
+If Git uses the wrong account, check Windows Credential Manager first.
+
+
+Git Lessons Learned
+===================
+
+1. git log --oneline --decorate -4
+-----------------------------------
+
+Command:
+
+    git log --oneline --decorate -4
+
+Meaning:
+
+    git log: show commit history
+    --oneline: compact one-line summary per commit
+    --decorate: show branch/tag labels and HEAD
+    -4: show only the latest 4 commits
+
+Recommended daily command:
+
+    git log --oneline --decorate --graph -5
+
+
+2. Normal branch vs detached HEAD
+---------------------------------
+
+Normal branch state:
+
+    0b694c9 (HEAD -> master)
+
+Detached HEAD state:
+
+    0b694c9 (HEAD)
+
+or in git status:
+
+    HEAD detached at 0b694c9
+
+Meaning:
+
+    Normal: HEAD points to a branch.
+    Detached: HEAD points directly to a commit, not a branch.
+
+Safety rule:
+
+    Do not commit, revert, merge, pull, or push while in detached HEAD.
+
+Always check before changing history:
+
+    git status
+
+Good:
+
+    On branch master
+
+Danger:
+
+    HEAD detached at <commit>
+
+
+3. git revert vs git reset
+--------------------------
+
+git revert <commit-id>
+
+    Creates a new commit that undoes the chosen commit.
+    Does not remove the original commit from history.
+
+Use revert when:
+
+    - The commit was already pushed.
+    - Others may have the commit.
+    - You want safe history.
+
+Example:
+
+    3420688 initial commit
+    99859d7 second commit
+    0b694c9 third commit
+    4bfec5c Revert "third commit"
+
+Result:
+
+    File content returns to the previous state,
+    while the original commit still exists.
+
+
+git reset --hard HEAD~1
+
+    Moves the branch pointer backward.
+    Removes the latest commit from visible branch history.
+    Discards working directory changes.
+
+Use reset when:
+
+    - You are experimenting locally.
+    - The commit was not pushed.
+    - You want to remove the latest commit completely.
+
+Warning:
+
+    git reset --hard can delete uncommitted work.
+
+
+4. Correct revert workflow
+--------------------------
+
+Goal:
+
+    Return file content to match the previous commit without deleting history.
+
+Steps:
+
+    git status
+    confirm: On branch master, nothing to commit, working tree clean
+    git revert <commit-id>
+
+Expected result:
+
+    A new revert commit appears.
+    The original commit remains in history.
+    File content matches the earlier commit.
+
+
+5. less pager survival
+----------------------
+
+When git opens a pager like less, signs include:
+
+    (END)
+    :
+    No normal prompt visible
+    Enter scrolls instead of exiting
+
+Useful keys:
+
+    q     - quit pager
+    Space - scroll down one page
+    b     - scroll up one page
+    Enter - scroll down one line
+    /text - search for text
+    n     - next search result
+
+If you get stuck, press q or Esc.
+
+Avoid confusion:
+
+    git log --oneline --decorate -4
