@@ -1,4 +1,4 @@
-const { test } = require("@playwright/test");
+const { test,expect } = require("@playwright/test");
 
 test.only("create page via browser.newContext and open login page", async ({
   browser,
@@ -14,8 +14,10 @@ test.only("create page via browser.newContext and open login page", async ({
   await page.locator("#signInBtn").click();
   // wait untl this locator is visible, but in playwright no need to write, 
   // it will automatically wait for the element to be visible before performing any action on it.
-  const errorMessage = await page.locator("[style*='block']").textContent();
+  const errorMessageLocator = await page.locator("[style*='block']")
+  const errorMessage = await errorMessageLocator.textContent();
   console.log(errorMessage);
+  await expect(errorMessageLocator).toContainText("Hahah");
 });
 
 test("use fixture page to open Google", async ({ page }) => {
