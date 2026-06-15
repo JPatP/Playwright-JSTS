@@ -1,6 +1,8 @@
 npm init playwright
 npx playwright test --headed
 
+await page waitforLoadstatwe network idle() is already not recommened, use the following "  await page.locator("").last().waitFor();" isntead if you are waiting for multiple elements 
+
 Git Commands Reference
 ======================
 
